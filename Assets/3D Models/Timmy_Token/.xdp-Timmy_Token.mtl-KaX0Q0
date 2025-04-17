@@ -1,0 +1,6 @@
+# Made in Blockbench 4.12.1
+newmtl m_d97d4eb3-0cab-ab50-77f6-19bc4ebf3f07
+map_Kd BodyTexture.png
+newmtl m_d4d243ac-510b-8600-9822-b26e14cd6c97
+map_Kd NeedleTexture.png
+newmtl none
