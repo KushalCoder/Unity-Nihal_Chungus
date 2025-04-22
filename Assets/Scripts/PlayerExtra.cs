@@ -6,17 +6,18 @@ public class PlayerExtra : MonoBehaviour
 {
     //Variables
     [SerializeField] Animator camShake;
-	public LayerMask groundMask;
-    public float groundDist = 0.4f;
-    private bool isGrounded;
-    public Transform groundCheck;
-    public bool handFull;
+	[SerializeField] LayerMask groundMask;
+    [SerializeField] float groundDist = 0.4f;
+    bool isGrounded;
+    [SerializeField] Transform groundCheck;
+    [HideInInspector] public bool handFull;
     [SerializeField] AudioSource conSteps;
     [SerializeField] Transform cam;
     [SerializeField] float pickUpDist;
     [SerializeField] LayerMask pickLayerMask;
     [SerializeField] Transform itemHolder;
     [SerializeField] GameObject Pickup_Txt;
+    [SerializeField] PlayerBindings pBindings;
 
     void Update()
     {
@@ -31,6 +32,17 @@ public class PlayerExtra : MonoBehaviour
 			camShake.SetBool("move?", false);
             conSteps.Stop();
 		}
+
+        if (Input.GetKey(KeyCode.LeftShift)) {
+            conSteps.pitch = 0.4f;
+            camShake.speed = 0f;
+        } else if (Input.GetKey(KeyCode.LeftControl) && pBindings.stamina > 0 && (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)) {
+            conSteps.pitch = 1.6f;
+            camShake.speed = 1.6f;
+        } else {
+            conSteps.pitch = 1f;
+            camShake.speed = 1f;
+        }
 
         if (Input.GetKeyDown(KeyCode.E)){
             if (Physics.Raycast(cam.position, cam.forward, out RaycastHit raycastHit, pickUpDist, pickLayerMask)){
@@ -59,10 +71,6 @@ public class PlayerExtra : MonoBehaviour
                 }
             }
         }
-
-
-
-
 
         if (Physics.Raycast(cam.position, cam.forward, out RaycastHit rHit, pickUpDist, pickLayerMask)){
             // Check if the hit object has a parent
